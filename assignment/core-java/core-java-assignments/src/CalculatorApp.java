@@ -13,12 +13,10 @@ public class CalculatorApp {
 	      System.out.print("\nEnter Your Choice (1-2):\n ");
 	      choice = scan.nextInt();
 	      if(choice<=2) {
-	    	  if(choice==1) {
+	    	  if(choice==1) 
 	    		  calculator();
-	    	  }
-	    	  else {
+	    	  else 
 	    		  System.out.println("\nGood Bye!! Have a nice day");
-	    	  }
 	      }
 	      else
 	    	  System.out.println("\nInvalid Choice!\n");
