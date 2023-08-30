@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class CalculatorApp {
+public class CalculatorApp2 {
 
     public static void main(String[] args) {
         int choice;
