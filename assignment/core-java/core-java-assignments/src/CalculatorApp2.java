@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class CalculatorApp2 {
-
     public static void main(String[] args) {
         int choice;
         int maxAttempts = 3; // Maximum attempts for valid input
@@ -43,7 +42,7 @@ public class CalculatorApp2 {
         int choice;
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("1. Addition (+)");
+        System.out.println("\n1. Addition (+)");
         System.out.println("2. Subtraction (-)");
         System.out.println("3. Multiplication (*)");
         System.out.println("4. Division (/)");
@@ -55,7 +54,7 @@ public class CalculatorApp2 {
         while ((choice < 1 || choice > 4) && attempts < maxAttempts) {
             attempts++;
             System.out.println("\nInvalid Choice! Attempt " + attempts + " of " + maxAttempts);
-            System.out.println("1. Addition (+)");
+            System.out.println("\n1. Addition (+)");
             System.out.println("2. Subtraction (-)");
             System.out.println("3. Multiplication (*)");
             System.out.println("4. Division (/)");
@@ -74,17 +73,25 @@ public class CalculatorApp2 {
         System.out.print("Enter Second Number: ");
         b = scan.nextFloat();
 
-        if (choice == 1)
-            res = a + b;
-        else if (choice == 2)
-            res = a - b;
-        else if (choice == 3)
-            res = a * b;
-        else
-            res = a / b;
+        if (choice == 1) {
+        	res = a + b;
+        	System.out.println("\nResult: "+ a +"+" +b +" = " + res);
+        }
+        else if (choice == 2) {
+        	res = a - b;
+        	System.out.println("\nResult: "+ a +"-" +b +" = " + res);
+        }
+        else if (choice == 3) {
+        	res = a * b;
+        	System.out.println("\nResult: "+ a +"*" +b +" = " + res);
+        }
+        else {
+        	res = a / b;
+        	System.out.println("\nResult: "+ a +"/" +b +" = " + res);
+        }
 
-        System.out.println("\nResult = " + res);
+       // System.out.println("\nResult = " + res);
 
-        scan.close();
+       // scan.close();
     }
 }
