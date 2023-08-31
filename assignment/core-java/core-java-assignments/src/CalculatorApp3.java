@@ -1,33 +1,35 @@
 public class CalculatorApp3 {
        public static void main(String[] args) {
         if (args.length != 3) {
-            System.out.println("Usage: java Calculator <operation> <operand1> <operand2>");
+            System.out.println("Usage: java Calculator  <operand1> <operand2><operation>");
             System.exit(1);
         }
 
-        String operation = args[0];
-        double operand1 = Double.parseDouble(args[1]);
-        double operand2 = Double.parseDouble(args[2]);
+        
+        double x = Double.parseDouble(args[0]);
+        double y = Double.parseDouble(args[1]);
+        String operation = args[2];
         double result = 0.0;
 
         switch (operation) {
 
             case "add":
-                result = add(operand1, operand2);
+                result = add(x, y);
                 break;
 
-            case "subtract":
-                result = subtract(operand1, operand2);
+            case "sub":
+                result = subtract(x, y);
                 break;
 
-            case "multiply":
-                result = multiply(operand1, operand2);
+            case "mul":
+                result = multiply(x, y);
                 break;
 
-            case "divide":
+            case "div":
                 try {
-                    result = divide(operand1, operand2);
-                } catch (IllegalArgumentException e) {
+                	if(y==0) throw new Exception("Cannot divide by zero");
+                    result = divide(x, y);
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                     System.exit(1);
                 }
@@ -59,9 +61,6 @@ public class CalculatorApp3 {
  
 
     public static double divide(double x, double y) {
-        if (y == 0) {
-            throw new IllegalArgumentException("Cannot divide by zero");
-        }
         return x / y;
     }
 }

@@ -10,7 +10,7 @@ public class BinarySearchExample {
         int n = scanner.nextInt();
         int[] arr = new int[n];
 
-        System.out.println("Enter the array elements:");
+        System.out.print("Enter the array elements:");
         for (int i = 0; i < n; i++) {
             arr[i] = scanner.nextInt();
         }
@@ -49,22 +49,23 @@ public class BinarySearchExample {
                 }
             }
         }
+        System.out.println("sorted array : "+Arrays.toString(arr));
     }
 
     // Binary search implementation
     static int binarySearch(int[] arr, int target) {
-        int left = 0;
-        int right = arr.length - 1;
+        int low = 0;
+        int high = arr.length - 1;
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
+        while (low <= high) {
+            int mid = low+ (high - low) / 2;
 
             if (arr[mid] == target) {
                 return mid;
             } else if (arr[mid] < target) {
-                left = mid + 1;
+                low = mid + 1;
             } else {
-                right = mid - 1;
+                high = mid - 1;
             }
         }
 

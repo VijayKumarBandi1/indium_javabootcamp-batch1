@@ -1,97 +1,49 @@
 import java.util.Scanner;
 
 public class CalculatorApp2 {
-    public static void main(String[] args) {
-        int choice;
-        int maxAttempts = 3; // Maximum attempts for valid input
-        Scanner scan = new Scanner(System.in);
+	 public static void main(String[] args) {
+		 
+	        if (args.length != 3) {
+	            System.out.println("Usage: java Calculator  <operand1> <operand2><operation>");
+	            System.exit(1);
+	        }
 
-        do {
-        	 calculator(maxAttempts);
-            System.out.println("\n1. Continue");
-            System.out.println("2. Exit");
-            System.out.print("\nEnter Your Choice (1-2): ");
-            choice = scan.nextInt();
+	        
+	        double x = Double.parseDouble(args[0]);
+	        double y = Double.parseDouble(args[1]);
+	        String operation = args[2];
+	        double result = 0.0;
 
-            // Input validation for main menu choice with limited attempts
-            int attempts = 0;
-            while ((choice < 1 || choice > 2) && attempts < maxAttempts) {
-                attempts++;
-                System.out.println("\nInvalid Choice! Attempt " + attempts + " of " + maxAttempts);
-                System.out.println("1. Continue");
-                System.out.println("2. Exit");
-                System.out.print("\nEnter Your Choice (1-2): ");
-                choice = scan.nextInt();
-            }
+	        switch (operation) {
 
-            if (attempts >= maxAttempts) {
-                System.out.println("\nMaximum attempts reached. Exiting the application.");
-                break;
-            }
+	            case "add":
+	                result = x+y;
+	                break;
 
-            if (choice == 2) {
-                System.out.println("\nGood Bye!! Have a nice day");
-            }
-        } while (choice == 1);
+	            case "sub":
+	                result = x-y;
+	                break;
 
-        scan.close();
-    }
+	            case "mul":
+	                result = x * y;
+	                break;
 
-    public static void calculator(int maxAttempts) {
-        float a, b, res;
-        int choice;
-        Scanner scan = new Scanner(System.in);
+	            case "div":
+	                try {
+	                	if(y==0)  throw new Exception("Cannot divide by zero");
+	                    result = x / y;
+	                } catch (Exception e) {
+	                    System.out.println(e.getMessage());
+	                    System.exit(1);
+	                }
+	                break;
 
-        System.out.println("\n1. Addition (+)");
-        System.out.println("2. Subtraction (-)");
-        System.out.println("3. Multiplication (*)");
-        System.out.println("4. Division (/)");
-        System.out.print("Enter Your Choice (1-4): ");
-        choice = scan.nextInt();
+	            default:
+	                System.out.println("Invalid operation. Choose from 'add', 'subtract', 'multiply', or 'divide'.");
+	                System.exit(1);
+	        }
 
-        // Input validation for calculator options
-        int attempts = 0;
-        while ((choice < 1 || choice > 4) && attempts < maxAttempts) {
-            attempts++;
-            System.out.println("\nInvalid Choice! Attempt " + attempts + " of " + maxAttempts);
-            System.out.println("\n1. Addition (+)");
-            System.out.println("2. Subtraction (-)");
-            System.out.println("3. Multiplication (*)");
-            System.out.println("4. Division (/)");
-            System.out.print("Enter Your Choice (1-4): ");
-            choice = scan.nextInt();
-        }
+	        System.out.println("Result: " + result);
+	    }
 
-        if (attempts >= maxAttempts) {
-            System.out.println("\nMaximum attempts reached for calculator input. Exiting the application.");
-            scan.close();
-            System.exit(0);
-        }
-
-        System.out.print("\nEnter First Number: ");
-        a = scan.nextFloat();
-        System.out.print("Enter Second Number: ");
-        b = scan.nextFloat();
-
-        if (choice == 1) {
-        	res = a + b;
-        	System.out.println("\nResult: "+ a +"+" +b +" = " + res);
-        }
-        else if (choice == 2) {
-        	res = a - b;
-        	System.out.println("\nResult: "+ a +"-" +b +" = " + res);
-        }
-        else if (choice == 3) {
-        	res = a * b;
-        	System.out.println("\nResult: "+ a +"*" +b +" = " + res);
-        }
-        else {
-        	res = a / b;
-        	System.out.println("\nResult: "+ a +"/" +b +" = " + res);
-        }
-
-       // System.out.println("\nResult = " + res);
-
-       // scan.close();
-    }
 }
