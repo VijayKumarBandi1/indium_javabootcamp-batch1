@@ -1,7 +1,10 @@
 import java.util.Scanner;
 
 public class BankingApp {
-    public static void main(String[] args) {
+	
+    public static void main(String[] args) 
+
+    {
         Scanner scanner = new Scanner(System.in);
         BankAccount[] accounts = new BankAccount[10]; // Maximum of 10 accounts
 
@@ -166,4 +169,6 @@ public class BankingApp {
 
         scanner.close();
     }
+    
+    
 }

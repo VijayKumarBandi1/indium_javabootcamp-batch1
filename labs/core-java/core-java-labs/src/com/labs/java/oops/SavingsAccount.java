@@ -3,14 +3,14 @@ package com.labs.java.oops;
 public class SavingsAccount extends Account{
 	
  private double balance;
- protected	double roi;
+
 
 	public SavingsAccount() {
 		System.out.println("saving default cons");
 	}
 	
 	public SavingsAccount(int id, String name, boolean active, double balance, double roi) {
-		super(id, name ,active);
+		super(id, name ,active,roi);
 		System.out.println("saving overload cons");
 	}
 	
@@ -38,7 +38,16 @@ public class SavingsAccount extends Account{
 	
 	@Override
 	public String toString() {
-		return super.toString()+ " balance="+balance+" roi="+roi;
+		return super.toString()+ " balance="+balance;
 	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	
 	
 }

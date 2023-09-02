@@ -29,6 +29,7 @@ public class AccountMain {
 		
 		SavingsAccount savings = new SavingsAccount();
 		
+		DepositAccount deposit = new DepositAccount(201 , "vijay", true, 5,1000,10);
 		
 	}
 

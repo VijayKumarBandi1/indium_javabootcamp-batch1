@@ -6,27 +6,29 @@ public abstract class Account {
 	
 	
 
-	int id;
-	String name =new String();
+ private int id;
+ private String name ;
+ private boolean active;
+ private double roi;
 	
-	boolean active;
 	
 	{
 		System.out.println("instance block ");
 	}
 	
-	Account(){
-		System.out.println("Account default cons block");
-		System.out.println(this.name instanceof String);
+ 
+	public Account() {
+		
 	}
 	
-	Account(int id,String name,boolean active){
-	     this.id=id;
-	     this.name=name;
-	     this.active=active;
-		System.out.println("Account overload cons block");	
+	public Account(int id, String name, boolean active, double roi) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.active = active;
+		this.roi = roi;
 	}
-	
+
 	abstract void openAccount() ;
 	
 	void closeAccount() {
@@ -45,11 +47,48 @@ public abstract class Account {
 //		return this.balance;
 //	}
 
+	
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", name=" + name + ", active=" + active
-				+ "]";
+		return "Account [id=" + id + ", name=" + name + ", active=" + active + ", roi=" + roi + "]";
 	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public double getRoi() {
+		return roi;
+	}
+
+	public void setRoi(double roi) {
+		this.roi = roi;
+	}
+	
+	
 	
 	
 

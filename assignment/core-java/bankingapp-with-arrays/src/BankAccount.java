@@ -1,6 +1,4 @@
 
-import java.util.Scanner;
-
 class BankAccount {
     private int accountNumber;
     private String accountHolderName;
