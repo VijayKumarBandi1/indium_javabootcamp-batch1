@@ -22,10 +22,10 @@ public class BankingAppMain {
 			System.out.println("2] View All Accounts");
 			System.out.println("3] View Account");
 			System.out.println("4] Update Account");
-			System.out.println("5] Delete Account");
-//			System.out.println("6] Deposit Amount");
-//			System.out.println("7] Withdraw Amount");
-			System.out.println("6] Exit");
+			System.out.println("5] Deposit Amount");
+			System.out.println("6] Withdraw Amount");
+			System.out.println("7] Delete Account");
+			System.out.println("8] Exit");
 			System.out.print("Enter your choice: ");
 			choice = scanner.nextInt();
 
@@ -95,8 +95,56 @@ public class BankingAppMain {
 				}
 				break;
 
-			// -----------------------------------------delete Account---------------------------------------
+		
+			
+			//---------------------------------------Deposit Amount-----------------------------------------	
 			case 5:
+				System.out.print("Enter account number to deposit: ");
+				int depositAccountNumber = scanner.nextInt();
+				Account depositAccount = accountService.getAccount(depositAccountNumber);
+				
+				if (depositAccount!=null) {
+					System.out.println("Enter Amount");
+					double amount=scanner.nextInt();
+					boolean deposit = accountService.deposit(depositAccountNumber, amount);
+					if(deposit) {
+						System.out.println("Amount successfully deposited");
+					}
+					else {
+						System.out.println("Deposit failed");
+					}
+					
+				} else {
+					System.out.println("Account not found.");
+				}
+				
+				break;
+				
+				//--------------------------------------withdraw Amount-----------------------------------
+			case 6:
+				System.out.print("Enter account number to withdraw: ");
+				int withdrawAccountNumber = scanner.nextInt();
+				Account withdrawAccount = accountService.getAccount(withdrawAccountNumber);
+				
+				if (withdrawAccount!=null) {
+					System.out.println("Enter Amount");
+					double amount=scanner.nextInt();
+					boolean withdraw = accountService.withdraw(withdrawAccountNumber, amount);
+					if(withdraw) {
+						System.out.println("Successful withdrawal of money");
+					}
+					else {
+						System.out.println("withdrawal failed");
+					}
+					
+				} else {
+					System.out.println("Account not found.");
+				}
+				
+				break;
+				
+				// -----------------------------------------delete Account---------------------------------------
+			case 7:
 				System.out.print("Enter account number to delete: ");
 				int deleteAccountNumber = scanner.nextInt();
 				Account deleteAccount = accountService.getAccount(deleteAccountNumber);
@@ -111,15 +159,9 @@ public class BankingAppMain {
 					System.out.println("Account not found.");
 				}
 				break;
-//			case 6:
-//				// Implement deposit functionality here
-//				break;
-//			case 7:
-//				// Implement withdrawal functionality here
-//				break;
 
 			// ---------------------------------Exiting ---------------------------------------------------
-			case 6:
+			case 8:
 				System.out.println("Exiting the application.");
 				break;
 			default:
@@ -127,7 +169,7 @@ public class BankingAppMain {
 			}
 
 			System.out.println();
-		} while (choice != 6);
+		} while (choice != 8);
 
 		scanner.close();
 	}
@@ -145,14 +187,15 @@ public class BankingAppMain {
 	        
 	        // Check if the account number already exists
 	        if (accountService.getAccount(accountNumber) != null) {
-	            System.out.println("Account with the same account number already exists. Please choose a different account number.");
+	            System.out.println("Account number already exists. Please choose a different account number.");
 	        } else {
-	            break; // Valid input, exit the loop
+	            break; 
 	        }
 	    }
-
+         
+	    scanner.nextLine();
 	    System.out.print("Enter account holder's name: ");
-	    accountHolderName = scanner.next();
+	    accountHolderName = scanner.nextLine();
 	    System.out.print("Enter initial balance: ");
 	    initialBalance = scanner.nextDouble();
 
@@ -163,22 +206,25 @@ public class BankingAppMain {
 	// -----------------------------------------------update Account details-----------------------
 	public static Account captureUpdateAccountDetails(int accountNumber, double balance) {
 	    String accountHolderName;
-	    while (true) {
-	        // Consume any remaining newline character from the previous input
-	        scanner.nextLine();
+	    
+	    // Consume the newline character left in the input buffer
+	    scanner.nextLine();
 
+	    while (true) {
 	        System.out.print("Update account holder's name: ");
 	        accountHolderName = scanner.nextLine();
 
 	        // Perform any necessary validation for the account holder's name
 	        if (!accountHolderName.isEmpty()) {
-	            break; // Valid input, exit the loop
+	            break; 
 	        } else {
 	            System.out.println("Account holder's name cannot be empty. Please enter a valid name.");
 	        }
 	    }
+	    
 	    return new Account(accountNumber, accountHolderName, balance);
 	}
+
 
 
 }

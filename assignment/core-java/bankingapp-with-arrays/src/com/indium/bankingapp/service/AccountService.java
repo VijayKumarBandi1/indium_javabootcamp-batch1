@@ -9,6 +9,7 @@ public interface AccountService {
 	    public boolean deleleAccount(Account account);
 	    public Account getAccount(int id);
 	    public Account[] getAllAccounts();
-	 
+	    public boolean deposit(int id, double amount);
+	    public boolean withdraw(int id, double amount);
 	
 }
