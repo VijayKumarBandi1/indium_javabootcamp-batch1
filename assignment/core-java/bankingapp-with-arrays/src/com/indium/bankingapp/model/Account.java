@@ -36,18 +36,18 @@ public class Account {
 		this.balance = balance;
 	}
 
-//	public void deposit(double amount) {
-//		balance += amount;
-//		System.out.println("Deposit successful. Current balance: $" + balance);
-//	}
-//
-//	public void withdraw(double amount) {
-//		if (amount <= balance) {
-//			balance -= amount;
-//			System.out.println("Withdrawal successful. Current balance: $" + balance);
-//		} else {
-//			System.out.println("Insufficient funds.");
-//		}
-//	}
+	public void deposit(double amount) {
+		balance += amount;
+		System.out.println("Deposit successful. Current balance: $" + balance);
+	}
+
+	public void withdraw(double amount) {
+		if (amount <= balance) {
+			balance -= amount;
+			System.out.println("Withdrawal successful. Current balance: $" + balance);
+		} else {
+			System.out.println("Insufficient funds.");
+		}
+	}
 
 }
