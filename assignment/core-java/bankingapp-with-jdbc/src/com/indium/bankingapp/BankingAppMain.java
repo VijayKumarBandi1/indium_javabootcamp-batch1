@@ -1,8 +1,9 @@
 package com.indium.bankingapp;
 
 import java.util.Collection;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
-
 
 import com.indium.bankingapp.enums.AccountType;
 import com.indium.bankingapp.model.Account;
@@ -16,6 +17,7 @@ public class BankingAppMain {
  static AccountService accountService = new AccountServiceHashMapImpl();
 
 	public static void main(String[] args)  {
+
 		int choice;
 
 		do {
@@ -149,18 +151,18 @@ public class BankingAppMain {
 				
 //------------------------------------ print statistics------------------------------------		
 			case 7:
-				 accountService.printStatistics();
+				printStatistics();
 				break;
 				
 //---------------------------------Import---------------------------------------				
 			case 8:
 				accountService.importData();
-                break;
+				break;
 				
 //------------------------------------Export---------------------------------------				
 			case 9:
-                 accountService.exportData();
-                break;
+				accountService.exportData();
+				break;
 
 // -----------------------------------------delete Account---------------------------------------
 			case 10:
@@ -169,6 +171,7 @@ public class BankingAppMain {
 				Account deleteAccount = accountService.getAccount(deleteAccountNumber);
 				if (deleteAccount != null) {
 					boolean deleted = accountService.deleteAccount(deleteAccount);
+					
 					if (deleted) {
 						System.out.println("Account deleted successfully.");
 					} else {
@@ -265,6 +268,44 @@ public class BankingAppMain {
 		}
 
 		return new Account(accountNumber,accountHolderName,balance,accType);
+	}
+	
+	//--------------------------------------print statistics method----------------------
+	
+	private static void printStatistics() {
+
+		System.out.println("Banking App Statistics: ");
+		System.out.println("1. No of accounts which has balance more than 1 lac");
+		System.out.println("2. Show no of account by account type");
+		System.out.println("3. Show no of accounts by account type with sorting");
+		System.out.println("4. Show avg balance by account type");
+		System.out.println("5. List account ids whose account name contains given name");
+
+		Scanner scanner = new Scanner(System.in);
+		int choice = scanner.nextInt();
+		scanner.nextLine();
+
+		switch (choice){
+			case 1:
+				accountService.getCountOfAccountsAboveBalance(100000);
+				break;
+			case 2:
+				accountService.getNoOfAccountsByAccountType();
+				break;
+			case 3:
+				accountService.getNoOfAccountsByAccountTypeWithSorted();
+				break;
+			case 4:
+				accountService.getAverageBalanceByAccountType();
+				break;
+			case 5:
+				System.out.println("Enter account name to search: ");
+				String accountName = scanner.nextLine();
+				accountService.getAccountIdsByAccountName(accountName);
+				break;
+			default:
+				System.err.println("Invalid choice. ");
+		}
 	}
 
 }

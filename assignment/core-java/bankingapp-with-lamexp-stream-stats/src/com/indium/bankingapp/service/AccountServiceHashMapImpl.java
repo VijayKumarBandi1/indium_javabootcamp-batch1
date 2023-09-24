@@ -5,13 +5,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.indium.bankingapp.enums.AccountType;
 import com.indium.bankingapp.model.Account;
 
 public class AccountServiceHashMapImpl implements AccountService {
+
+	static AccountService accountService = new AccountServiceHashMapImpl();
 
     private HashMap<Integer, Account> accounts = new HashMap<>();
 
@@ -82,54 +87,81 @@ public class AccountServiceHashMapImpl implements AccountService {
         return false; 
     }
 
-   //******************************print statistics***************************************
-	@Override
-	public void printStatistics() {
-		
-		 if (accounts.isEmpty()) {
-	            System.out.println("No accounts found.");
-	            return;
-	        }
+   //******************************print statistics start***************************************
+    
+  //*************************** The number of accounts is more than 1 lakh ************************* 
+    @Override
+    public void getCountOfAccountsAboveBalance(double balance) {
+		long count = accounts.values().stream()
+				.filter(account -> account.getBalance() > balance)
+				.count();
+		  System.out.println("Number of accounts with balance above " + balance + ": " + count);
+		      
+	}
+    
+    //************************* Number of accounts by account type****************************
+    @Override
+    public void getNoOfAccountsByAccountType() {
+    	 Map<AccountType, Long> accountTypeCounts = accounts.values()
+                 .stream()
+                 .collect(Collectors.groupingBy(Account::getAccType, Collectors.counting()));
+         System.out.println(" Show no of account by account type:");
+         accountTypeCounts.forEach((accountType, count) -> System.out.println(accountType + ": " + count));
+	}
+    
+    //*******************Number of accounts by account type with sorting*********************
+    @Override
+    public void getNoOfAccountsByAccountTypeWithSorted() {
+        Map<AccountType, Long> accountTypeCounts = accounts.values()
+                .stream()
+                .collect(Collectors.groupingBy(Account::getAccType, Collectors.counting()));
 
-	        double totalBalance = 0;
-	        int countAccountsAbove1Lac = 0;
-	        Map<AccountType, Integer> accountTypeCount = new HashMap<>();
-	        Map<AccountType, Double> accountTypeTotalBalance = new HashMap<>();
-	        for (Account account : accounts.values()) {
-	            totalBalance += account.getBalance();
+        System.out.println("Number of accounts by account type with sorting");
+        accountTypeCounts.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(entry -> entry.getKey().toString().toLowerCase()))
+                .forEach(entry -> System.out.println("Account Type: " + entry.getKey() + ", Count: " + entry.getValue()));
+    }
 
-	            if (account.getBalance() > 100000) {
-	                countAccountsAbove1Lac++;
-	            }
+    
+ //******************** Average Balance By AccountType***********************************  
+    public void getAverageBalanceByAccountType() {
+    	 Map<AccountType, Double> avgBalanceByAccountType = accounts.values()
+                 .stream()
+                 .collect(Collectors.groupingBy(Account::getAccType, Collectors.averagingDouble(Account::getBalance)));
+                 System.out.println("Average balance by account type:");
+         avgBalanceByAccountType.forEach((accountType, avgBalance) -> System.out.println("Account Type: " + accountType + ", Avg Balance: " + avgBalance));
+	}
+    
+ //********************* Account Id's ByAccount Name ************************************ 
+    @Override
+    public void getAccountIdsByAccountName(String accountName) {
+        if (accountName == null || accountName.trim().isEmpty()) {
+            System.out.println("Account name is empty or null. Please provide a valid account name.");
+            return; 
+        }
 
-	            AccountType accountType = account.getAccType();
-	            accountTypeCount.put(accountType, accountTypeCount.getOrDefault(accountType, 0) + 1);
-	            accountTypeTotalBalance.put(accountType, accountTypeTotalBalance.getOrDefault(accountType, 0.0) + account.getBalance());
+        Collection<Account> allAccounts = getAllAccounts();
+        if (allAccounts.size()==0) {
+            System.out.println("No accounts found.");
+            return; 
+        }
 
-	            }
-	        System.out.println("\na] No of accounts which has balance more than 1 lac: " + countAccountsAbove1Lac);
+        System.out.println("Account IDs with account name containing \"" + accountName + "\":");
+        allAccounts.stream()
+                .filter(account -> {
+                    String accountHolderName = account.getAccountHolderName();
+                    return accountHolderName != null && accountHolderName.toLowerCase().contains(accountName.toLowerCase());
+                })
+                .map(Account::getAccountNumber)
+                .forEach(System.out::println);
+    }
 
-	        System.out.println("\nb] Show no of account by account type:");
-	        for (Map.Entry<AccountType, Integer> entry : accountTypeCount.entrySet()) {
-	            System.out.println(entry.getKey() + ": " + entry.getValue());
-	        }
+  //******************************print statistics end***************************************    
 
-	        System.out.println("\nc] Show no of accounts by account type with sorting:");
-	        accountTypeCount.entrySet().stream()
-	                .sorted(Map.Entry.comparingByValue())
-	                .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
-
-	        System.out.println("\nd] Show avg balance by account type:");
-	        for (Map.Entry<AccountType, Double> entry : accountTypeTotalBalance.entrySet()) {
-	            AccountType accountType = entry.getKey();
-	            double totalBalanceByType = entry.getValue();
-	            int countByType = accountTypeCount.get(accountType);
-	            double avgBalance = totalBalanceByType / countByType;
-	            System.out.println(accountType + ": " + avgBalance);
-	        }
-	    }
 	
 //****************************Import*******************************************	
+	
 	 public void importData(){
 	        Runnable obj1 = new Runnable() {
 	            @Override
@@ -166,7 +198,6 @@ public class AccountServiceHashMapImpl implements AccountService {
 	    }
 
 	//*****************************export*********************************************
-
 	 public void exportData(){
 	        Runnable obj1 = new Runnable() {
 	            @Override
@@ -207,5 +238,7 @@ public class AccountServiceHashMapImpl implements AccountService {
     public boolean deleteAccount(Account account) {
         return accounts.values().remove(account);
     }
-	
+    
+ 
+
 }
