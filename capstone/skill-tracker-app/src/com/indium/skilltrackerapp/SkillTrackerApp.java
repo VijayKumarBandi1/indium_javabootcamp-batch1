@@ -1,6 +1,6 @@
 package com.indium.skilltrackerapp;
 import java.util.ArrayList;
-
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -34,7 +34,7 @@ public class SkillTrackerApp {
             System.out.println("6. Show Key Metrics");
             System.out.println("7. Exit");
 
-             choice = scanner.nextInt();
+             choice = getIntInput();
             scanner.nextLine(); 
 
             switch (choice) {
@@ -73,7 +73,7 @@ public class SkillTrackerApp {
         String name = scanner.nextLine();
 
         System.out.println("Enter Associate Age:");
-        int age = scanner.nextInt();
+        int age = getIntInput();
         scanner.nextLine(); 
 
         System.out.println("Enter Business Unit:");
@@ -105,7 +105,7 @@ public class SkillTrackerApp {
 
          System.out.println("Select Skill Category");
          System.out.println("1]Primary \n2]Secondary \nEnter your choice");
-         int categoryChoice = scanner.nextInt();
+         int categoryChoice = getIntInput();
          SkillCategory category = null ;
          if(categoryChoice == 1) {
         	 category = SkillCategory.Primary;
@@ -113,7 +113,7 @@ public class SkillTrackerApp {
         	 category = SkillCategory.Secondary;
          }
          System.out.println("Enter Skill Experience (in months):");
-         int experience = scanner.nextInt();
+         int experience = getIntInput();
          scanner.nextLine(); 
          Skill skill = new Skill(0, skillName, description, category, experience,0);
          storeSkillTem.add(skill);
@@ -138,7 +138,7 @@ public class SkillTrackerApp {
     @SuppressWarnings("unused")
 	private static void editAssociate() {
         System.out.println("Enter the ID of the associate you want to edit:");
-        int associateId = scanner.nextInt();
+        int associateId = getIntInput();
         scanner.nextLine();
         Associate associate = associateService.getAssociateById(associateId);
         String newName = associate.name(); int newAge = associate.age(); String newBusinessUnit = associate.businessUnit(); String newEmail = associate.email();  String newLocation = associate.location() ;
@@ -155,7 +155,7 @@ public class SkillTrackerApp {
                 System.out.println("8. Edit Skill");
                 System.out.println("9. Delete Skill");
                 System.out.println("10. Back to Main Menu");
-                int choice = scanner.nextInt();
+                int choice = getIntInput();
                 scanner.nextLine();
                 switch (choice) {
                     case 1:
@@ -164,7 +164,7 @@ public class SkillTrackerApp {
                         break;
                     case 2:
                         System.out.println("Enter the new age:");
-                       newAge = scanner.nextInt();
+                       newAge = getIntInput();
                         break;
                     case 3:
                         System.out.println("Enter the new business unit:");
@@ -199,7 +199,7 @@ public class SkillTrackerApp {
                 	continue;
                 }
                 System.out.println("1]Continue Edit \n2]Submit \nEnter your choice");
-                short editChoice = scanner.nextShort();
+                int editChoice = getIntInput();
                 if(editChoice==1) {
                 	continue;
                 }else if(editChoice==2) {
@@ -262,7 +262,7 @@ public class SkillTrackerApp {
 
              System.out.println("Select Skill Category");
              System.out.println("1]Primary \n2]Secondary \nEnter your choice");
-             int categoryChoice = scanner.nextInt();
+             int categoryChoice = getIntInput();
              SkillCategory category = null ;
              if(categoryChoice == 1) {
             	 category = SkillCategory.Primary;
@@ -270,7 +270,7 @@ public class SkillTrackerApp {
             	 category = SkillCategory.Secondary;
              }
              System.out.println("Enter Skill Experience (in months):");
-             int experience = scanner.nextInt();
+             int experience = getIntInput();
              scanner.nextLine(); 
              Skill skill = new Skill(0, skillName, description, category, experience,associate.id());
            boolean addSkill = skillService.addSkill(skill, associate.id());
@@ -285,7 +285,7 @@ public class SkillTrackerApp {
  //****************************Edit Skill for Associate****************************************  
     private static void editSkillForAssociate(Associate ass) {
     	 System.out.println("Enter the skill's ID to edit:");
-         int idToEdit = scanner.nextInt();
+         int idToEdit = getIntInput();
          scanner.nextLine();
        Skill skill =  skillService.getSkillById(idToEdit,ass.id());
        if(skill!=null) {
@@ -295,7 +295,7 @@ public class SkillTrackerApp {
            
            System.out.println("Select Skill Category");
            System.out.println("1]Primary \n2]Secondary \nEnter your choice");
-           int categoryChoice = scanner.nextInt();
+           int categoryChoice = getIntInput();
            SkillCategory category = null ;
            if(categoryChoice == 1) {
           	 category = SkillCategory.Primary;
@@ -303,7 +303,7 @@ public class SkillTrackerApp {
           	 category = SkillCategory.Secondary;
            }
            System.out.println("Enter Skill Experience (in months):");
-           int experience = scanner.nextInt();
+           int experience = getIntInput();
            scanner.nextLine(); 
            Skill updateSkill = new Skill(skill.id(), skill.name(), description, category, experience,ass.id());
           boolean updatesSkill = skillService.updateSkill(updateSkill, idToEdit);
@@ -321,7 +321,7 @@ public class SkillTrackerApp {
  //*************************Delete Skill for associate********************************************   
     private static void deleteSkillForAssociate(Associate ass) {
     	System.out.println("Enter the skill's ID to delete:");
-        int idToDelete = scanner.nextInt();
+        int idToDelete = getIntInput();
         List<Skill> skills = skillService.getSkillsByAssId(ass.id());
         if(skills.size()==1) {
         	 System.out.println("This is the last skill for the associate. You cannot delete it.");
@@ -338,7 +338,7 @@ public class SkillTrackerApp {
 //*****************************Delete Associate with skills*******************************
     private static void deleteAssociate() {
     	System.out.println("Enter the associates's ID to delete:");
-        int idToDelete = scanner.nextInt();
+        int idToDelete = getIntInput();
       boolean deleteAllSkillForAss=  skillService.deleteSkillWithAssId(idToDelete);
       if(deleteAllSkillForAss) {
     	boolean deleteAss =  associateService.deleteAssociate(idToDelete);
@@ -361,8 +361,8 @@ public class SkillTrackerApp {
     	        System.out.println("4. Search by Skill");
     	        System.out.println("5. Back to Main Menu");
 
-    	        int choice = scanner.nextInt();
-    	        scanner.nextLine(); // Consume newline
+    	        int choice = getIntInput();
+    	        scanner.nextLine(); 
 
     	        switch (choice) {
     	            case 1:
@@ -372,7 +372,7 @@ public class SkillTrackerApp {
     	                break;
     	            case 2:
     	                System.out.println("Enter the associate's ID to search:");
-    	                int idToSearch = scanner.nextInt();
+    	                int idToSearch = getIntInput();
     	                searchAssociatesById(idToSearch);
     	                break;
     	            case 3:
@@ -386,7 +386,6 @@ public class SkillTrackerApp {
     	                searchAssociatesBySkills(skillsToSearch);
     	                break;
     	            case 5:
-    	                // Return to the main menu
     	                return;
     	            default:
     	                System.out.println("Invalid choice. Please try again.");
@@ -460,7 +459,7 @@ public class SkillTrackerApp {
             System.out.println("9. Skill-wise Average Associate Experience");
             System.out.println("10. Back to Main Menu");
             System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
+            choice = getIntInput();
 
             switch (choice) {
                 case 1:
@@ -469,13 +468,13 @@ public class SkillTrackerApp {
                     break;
                 case 2:
                    System.out.println("Enter number");
-                   int n = scanner.nextInt();
+                   int n = getIntInput();
                  int nCount =  associateService.getTotalAssociatesWithSkillsCount(n);
                  System.out.println("\nAssociates with More Than "+n+" Skills: "+nCount);
                     break;
 				case 3:
 					System.out.println("Enter number");
-					int nId = scanner.nextInt();
+					int nId = getIntInput();
 					List<Integer> assIds = associateService.getAssociateIdsWithSkillsCount(nId);
 					System.out.println("Associate IDs with at least " + nId + " skills:");
 					for (Integer assId : assIds) {
@@ -554,6 +553,18 @@ public class SkillTrackerApp {
                     break;
             }
         } while (choice != 10);
+    }
+    //*************************************************************************************************
+    //********************Invalid Input for number Exception Handling*********************************************
+    private static int getIntInput() {
+        while (true) {
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid input.");
+                scanner.nextLine();
+            }
+        }
     }
 //*********************************************************************************************
 //******************************Print Methods***************************************************    
